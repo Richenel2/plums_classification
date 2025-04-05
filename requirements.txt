@@ -1,3 +1,8 @@
 voyageai==0.3.2
 dotenv==0.9.9
 pillow==11.1.0
+pandas
+kagglehub
+scikit-learn
+flask==3.1.0
+tensorflow

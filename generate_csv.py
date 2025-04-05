@@ -7,11 +7,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import kagglehub
+
+# Download latest version
+path = kagglehub.dataset_download("arnaudfadja/african-plums-quality-and-defect-assessment-data")
+
 # Initialiser le client VoyageAI
 vo = voyageai.Client()
 
 # Chemins vers les dossiers de données
-base_path = 'data/african_plums_dataset/african_plums/'
+base_path = f'{path}/african_plums_dataset/african_plums/'
 categories = ['bruised', 'cracked', 'rotten', 'spotted', 'unripe', 'unaffected']
 
 # Liste pour stocker les résultats
@@ -39,7 +44,6 @@ for category in categories:
                 embedding = get_embeddings(image_path)
                 if embedding is not None:
                     data_for_csv.append([image_path, category] + embedding)
-            break
 
 # Enregistrer les résultats dans un fichier CSV
 csv_filename = 'image_embeddings.csv'

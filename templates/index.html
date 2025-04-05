@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-4xl font-bold text-center mb-4">Image Classification</h1>
+        
+        <!-- Form to upload image -->
+        <div class="bg-white p-6 rounded-lg shadow-md custom-card mb-6">
+            <form id="uploadForm" method="POST" action="/predict" enctype="multipart/form-data">
+                <label for="file" class="block text-xl font-medium mb-2">Choose an image:</label>
+                <input type="file" id="file" name="file" class="block w-full p-2 border rounded-lg mb-4">
+                
+                <label for="model" class="block text-xl font-medium mb-2">Choose a model:</label>
+                <select id="model" name="model" class="block w-full p-2 border rounded-lg mb-4">
+                    <option value="knn">KNN</option>
+                    <option value="svm">SVM</option>
+                    <option value="random_forest">Random Forest</option>
+                    <option value="neural_network">Neural Network</option>
+                </select>
+                
+                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg">Classify Image</button>
+            </form>
+        </div>
+
+        <!-- Display results -->
+        <div id="results" class="hidden mt-8">
+            <h2 class="text-2xl font-bold mb-4">Prediction Results</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md custom-card">
+                <p><strong>Category:</strong> <span id="category"></span></p>
+                <p><strong>Probability:</strong> <span id="probability"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("uploadForm");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            
+            // Make API request
+            const response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+            
+            const data = await response.json();
+            if (data.category) {
+                document.getElementById("category").textContent = data.category;
+                document.getElementById("probability").textContent = data.probability;
+                document.getElementById("results").classList.remove("hidden");
+            } else {
+                alert("Error: " + data.error);
+            }
+        });
+    </script>
+</body>
+</html>

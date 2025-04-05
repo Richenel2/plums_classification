@@ -28,19 +28,7 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f'Précision du modèle KNN : {accuracy * 100:.2f}%')
 
 # Sauvegarder le modèle
-model_filename = 'knn_model.joblib'
+model_filename = 'model/knn_model.joblib'
 joblib.dump(knn, model_filename)
 print(f"Modèle KNN sauvegardé sous : {model_filename}")
 
-# Charger le modèle depuis le fichier
-loaded_knn = joblib.load(model_filename)
-print("Modèle chargé avec succès !")
-
-# Exemple de prédiction sur une nouvelle image (en utilisant un embedding exemple)
-# Imaginons que nous avons un nouvel embedding à prédire
-# Nouveau embedding (ici, un exemple fictif)
-new_embedding = np.random.rand(1, X.shape[1])  # Utilisez un vrai embedding ici
-
-# Prédire la catégorie de la nouvelle image avec le modèle chargé
-predicted_label = loaded_knn.predict(new_embedding)
-print(f'Label prédit pour le nouvel embedding : {predicted_label[0]}')
